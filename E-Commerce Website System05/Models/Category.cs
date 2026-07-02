@@ -14,7 +14,7 @@ namespace E_Commerce_Website_System05.Models
     {
         [Key]
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int categoryId { get; set; } //system generated
         [Required]
         [MaxLength(100)]
