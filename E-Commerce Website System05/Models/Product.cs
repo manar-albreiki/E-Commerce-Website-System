@@ -23,6 +23,7 @@ namespace E_Commerce_Website_System05.Models
         [MaxLength(1000)]
         public string description { set; get; }//user input
         [Required]
+        [Column(TypeName = "decimal(10,2)")]
         [Range(0.01, double.MaxValue)]
         public decimal price { set; get; }//user input
         [Required]
@@ -39,8 +40,11 @@ namespace E_Commerce_Website_System05.Models
         public DateTime createdAt { set; get; } //system generated
         public bool isAvailable { set; get; } = true; //default value
 
-        public List<Order> orders { set; get; } //navigation
+        
         public List<Review>reviews { set; get; } //navigation
+
+        // reverse navigation — one Product appears in many OrderItems 
+        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
 
     }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce_Website_System05.Models
 {
-    [Table("")]
+    [Table("Review")]
     public class Review
     {
         [Key]

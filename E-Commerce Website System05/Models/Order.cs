@@ -22,6 +22,7 @@ namespace E_Commerce_Website_System05.Models
         [Required]
         public DateTime orderDate { get; set; } //system generated
         [Required]
+        [Column(TypeName = "decimal(10,2)")]
         [Range(0.0,double.MaxValue)]
         public decimal totalAmount { get; set; } //calculated
         [Required]
@@ -34,7 +35,9 @@ namespace E_Commerce_Website_System05.Models
         [MaxLength(50)]
         public string paymentMethod { get; set; } // user input
 
-        public List<Product> products { get; set; } //navigation
+        
 
+        // reverse navigation 
+        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }
