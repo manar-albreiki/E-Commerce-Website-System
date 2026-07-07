@@ -41,9 +41,101 @@ namespace E_Commerce_Website_System05
             User assignedUserId = context.Users.OrderBy(u => u.userId).Last();
             Console.WriteLine("User registered successfully. Assigned ID: "+ assignedUserId);
 
+        }
+        
+        //02 Add a New Product to a Category
 
+        //need to add category first
+        public static void AddCategory(){
+            Console.WriteLine("Enter  category Name");
+            string categoryName = Console.ReadLine();
+
+            Console.WriteLine("Enter  description for the catogory (optional) ");
+            string description = Console.ReadLine();
+
+            Console.WriteLine("Enter  imageUrl (optional) ");
+            string imageUrl = Console.ReadLine();
+
+            context.Categories.Add(new Category
+            {
+                categoryName= categoryName,
+                description= description,
+                imageUrl= imageUrl
+            });
+            context.SaveChanges();
+
+            Category assignedCategoryId = context.Categories.OrderBy(u => u.categoryId).Last();
+
+            Console.WriteLine("Category registered successfully. Assigned ID: " + assignedCategoryId);
 
         }
+
+        //dispaly all Categories so user can choose from list
+        public static void ViewAllCategories()
+        {
+            Console.WriteLine("=== All Categories ===");
+            foreach (Category c in context.Categories)
+            {
+                Console.WriteLine("CategoryId : "+c.categoryId+ " / category Name : "+c.categoryName);
+            }
+        }
+
+        public static void AddProduct()
+        {
+            Console.WriteLine("Enter categoryId that you to add prodict to that category");
+            int enteredCategoryId = int.Parse(Console.ReadLine());
+
+            Category selectedCategory = context.Categories.FirstOrDefault(c => c.categoryId == enteredCategoryId);
+
+            if (selectedCategory == null)
+            {
+                Console.WriteLine("no Category found with id");
+                return;
+            }
+
+            //add product
+            Console.WriteLine("Enter product Name");
+            string productName = Console.ReadLine();
+
+            Console.WriteLine("Enter description (optional)");
+            string description = Console.ReadLine();
+
+            Console.WriteLine("Enter product's price");
+            decimal price = decimal.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter product's stock Quantity");
+            int stockQuantity = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter imageUrl (optional)");
+            string imageUrl = Console.ReadLine();
+            context.Products.Add(new Product
+            {
+                productName= productName,
+                description= description,
+                price= price,
+                stockQuantity= stockQuantity,
+                imageUrl= imageUrl,
+                createdAt=DateTime.Now,
+                isAvailable=true
+            });
+            context.SaveChanges();
+
+            Product assignedProductId = context.Products.OrderBy(p => p.productId).Last();
+            Console.WriteLine("Product Added successfully. Assigned ID: " + assignedProductId);
+
+        }
+
+        //03 Place an Order
+        public static void PlaceOrder()
+        {
+            Console.Write("Enter user ID: ");
+            int userId = int.Parse(Console.ReadLine());
+            User user = context.Users.FirstOrDefault(u => u.userId == userId);
+
+            
+
+        }
+
 
         static void Main(string[] args)
         {

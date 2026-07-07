@@ -18,7 +18,7 @@ namespace E_Commerce_Website_System05.Models
         [Required]
         [ForeignKey("user")]
         public int userId { get; set; } //fk
-        public User user { get; set; } //navigation
+      
         [Required]
         public DateTime orderDate { get; set; } //system generated
         [Required]
@@ -35,7 +35,8 @@ namespace E_Commerce_Website_System05.Models
         [MaxLength(50)]
         public string paymentMethod { get; set; } // user input
 
-        
+        //realtions
+        public User user { get; set; } //navigation
 
         // reverse navigation 
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();

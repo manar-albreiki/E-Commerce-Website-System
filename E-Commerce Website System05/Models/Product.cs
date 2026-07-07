@@ -21,7 +21,8 @@ namespace E_Commerce_Website_System05.Models
         public string productName { set; get; } //user input
         //[Optional]
         [MaxLength(1000)]
-        public string description { set; get; }//user input
+        public string? description { set; get; }//user input
+
         [Required]
         [Column(TypeName = "decimal(10,2)")]
         [Range(0.01, double.MaxValue)]
@@ -31,7 +32,7 @@ namespace E_Commerce_Website_System05.Models
         public int stockQuantity { set; get; } = 0;//user input
         //[Optional]
         [MaxLength(300)]
-        public string imageUrl { set; get; }//user input
+        public string? imageUrl { set; get; }//user input
         [Required]
         [ForeignKey("category")]
         public int categoryId { set; get; }  // foreign key
