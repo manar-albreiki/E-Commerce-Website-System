@@ -281,6 +281,37 @@ namespace E_Commerce_Website_System05
 
         }
 
+        //05 Update Product Price and Availability
+        public static void UpdateProduct()
+        {
+            Console.WriteLine("== Available products ===");
+
+            List<Product> availableProducts = context.Products.Where(p => p.isAvailable == true).ToList();
+
+            foreach(Product p in context.Products)
+            {
+                Console.WriteLine("productId : "+p.productId+ " / productName : "+ p.productName+ " / price : " + p.price+ " / isAvailable : "+p.isAvailable);
+            }
+
+            Console.WriteLine("Enter productId that you want to update Price and Availability");
+            int enteredProductId = int.Parse(Console.ReadLine());
+
+            Product selectedProduct = context.Products.FirstOrDefault(p => p.productId == enteredProductId);
+
+            if (selectedProduct == null)
+            {
+                Console.WriteLine("Invalid productId");
+                return;
+            }
+            selectedProduct.price = 300;
+            selectedProduct.isAvailable = false;
+            context.SaveChanges();
+            Console.WriteLine("Price and Availability are updated");
+
+        }
+
+        //06 Cancel an Order
+
 
 
         static void Main(string[] args)
