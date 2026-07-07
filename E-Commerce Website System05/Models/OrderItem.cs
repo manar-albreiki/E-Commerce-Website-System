@@ -14,26 +14,30 @@ namespace E_Commerce_Website_System05.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int orderItemId { get; set; }              // system generated
+        public int orderItemId { get; set; }// system generated
 
 
         // relationship attribute — carried by this bridge entity
         [Required]
         [Range(1, 999)]
-        public int quantity { get; set; }                 // user input
+        public int quantity { get; set; }// user input
 
 
         // foreign key — every order item belongs to exactly one order
         [Required]
         [ForeignKey("order")]
-        public int orderId { get; set; }                  // system generated — from the active order
-        public Order order { get; set; }                  // navigation property
+        public int orderId { get; set; }// system generated — from the active order
+        public Order order { get; set; }// navigation property
 
         // foreign key — every order item references exactly one product
         [Required]
         [ForeignKey("product")]
         public int productId { get; set; }                // from list — chosen from available products
         public Product product { get; set; }              // navigation property
+
+        [Required]
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal unitPrice { get; set; }            // calculated — copied from product.price at the time of ordering
 
 
 

@@ -15,6 +15,7 @@ namespace E_Commerce_Website_System05.Models
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int orderId { get; set; } //system generated
+
         [Required]
         [ForeignKey("user")]
         public int userId { get; set; } //fk

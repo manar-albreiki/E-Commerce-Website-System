@@ -39,7 +39,7 @@ namespace E_Commerce_Website_System05
             });
             context.SaveChanges();
             User assignedUserId = context.Users.OrderBy(u => u.userId).Last();
-            Console.WriteLine("User registered successfully. Assigned ID: "+ assignedUserId);
+            Console.WriteLine("User registered successfully. Assigned ID: "+ assignedUserId.userId);
 
         }
         
@@ -66,7 +66,7 @@ namespace E_Commerce_Website_System05
 
             Category assignedCategoryId = context.Categories.OrderBy(u => u.categoryId).Last();
 
-            Console.WriteLine("Category registered successfully. Assigned ID: " + assignedCategoryId);
+            Console.WriteLine("Category registered successfully. Assigned ID: " + assignedCategoryId.categoryId);
 
         }
 
@@ -121,19 +121,105 @@ namespace E_Commerce_Website_System05
             context.SaveChanges();
 
             Product assignedProductId = context.Products.OrderBy(p => p.productId).Last();
-            Console.WriteLine("Product Added successfully. Assigned ID: " + assignedProductId);
+            Console.WriteLine("Product Added successfully. Assigned ID: " + assignedProductId.productId);
 
         }
 
         //03 Place an Order
         public static void PlaceOrder()
         {
+
+           
             Console.Write("Enter user ID: ");
             int userId = int.Parse(Console.ReadLine());
-            User user = context.Users.FirstOrDefault(u => u.userId == userId);
 
-            
+            User enteredUser = context.Users.FirstOrDefault(u => u.userId == userId); 
+            if (enteredUser == null)
+            {
+                Console.WriteLine("Invalid user ID.");
+                return;
+            }
 
+            Console.WriteLine("Enter  your shipping Address");
+            string shippingAddress = Console.ReadLine();
+
+            Console.WriteLine("Enter payment Method (Visa - Cash )");
+            string paymentMethod = Console.ReadLine();
+
+            //create order
+            context.Orders.Add(new Order
+            {
+                userId = userId,
+                orderDate =DateTime.Now,
+                status= "Pending",
+                totalAmount = 0,
+                shippingAddress = shippingAddress,
+                paymentMethod= paymentMethod
+
+            });
+
+            context.SaveChanges();
+
+            Order assignedOrderId = context.Orders.OrderBy(o => o.orderId).Last();
+            Console.WriteLine(" Order record successfully place it . Assigned ID: " + assignedOrderId.orderId);
+
+            //display all available products
+            List<Product> availableProducts = context.Products.Where(p => p.isAvailable == true).ToList();
+            foreach(Product p in availableProducts)
+            {
+                Console.WriteLine("productId : " + p.productId);
+                Console.WriteLine("productName : " + p.productName);
+                Console.WriteLine("price : " + p.price);
+                Console.WriteLine("stockQuantity : " + p.stockQuantity);
+            }
+
+            decimal total = 0;
+            while (true)
+            {
+                Console.WriteLine("Enter productId");
+                int enteredProductId = int.Parse(Console.ReadLine());
+
+                Product selectedProductId = context.Products.FirstOrDefault(p => p.productId == enteredProductId);
+                if (selectedProductId == null)
+                {
+                    Console.WriteLine("Invalid or unavailable product.");
+                    return;
+                }
+
+                Console.WriteLine("Enter quantity");
+                int quantity = int.Parse(Console.ReadLine());
+
+                if (quantity > selectedProductId.stockQuantity)
+                {
+                    Console.WriteLine("Not enough stock.");
+                    continue;
+                }
+
+                context.OrderItems.Add(new OrderItem
+                {
+                    productId = selectedProductId.productId,
+                    quantity = quantity,
+                    orderId = assignedOrderId.orderId,
+                    unitPrice = selectedProductId.price
+
+                });
+
+                total += selectedProductId.price * quantity;
+
+                int decrementStockQuantity = selectedProductId.stockQuantity - quantity;
+               
+
+
+                Console.WriteLine("Add another product? (Y/N)");
+                string answer = Console.ReadLine();
+
+                if (answer.ToUpper() != "Y")
+                    break;
+
+            }
+
+            assignedOrderId.totalAmount = total;
+            context.SaveChanges();
         }
 
 
