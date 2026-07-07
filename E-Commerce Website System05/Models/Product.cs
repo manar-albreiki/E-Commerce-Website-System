@@ -27,6 +27,7 @@ namespace E_Commerce_Website_System05.Models
         [Column(TypeName = "decimal(10,2)")]
         [Range(0.01, double.MaxValue)]
         public decimal price { set; get; }//user input
+
         [Required]
         [Range(0.0, double.MaxValue)]
         public int stockQuantity { set; get; } = 0;//user input
