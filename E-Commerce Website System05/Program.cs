@@ -108,7 +108,8 @@ namespace E_Commerce_Website_System05
 
             Console.WriteLine("Enter imageUrl (optional)");
             string imageUrl = Console.ReadLine();
-            context.Products.Add(new Product
+
+            Product product = new Product
             {
                 productName= productName,
                 description= description,
@@ -117,11 +118,12 @@ namespace E_Commerce_Website_System05
                 imageUrl= imageUrl,
                 createdAt=DateTime.Now,
                 isAvailable=true
-            });
+            };
+
             context.SaveChanges();
 
-            Product assignedProductId = context.Products.OrderBy(p => p.productId).Last();
-            Console.WriteLine("Product Added successfully. Assigned ID: " + assignedProductId.productId);
+            
+            Console.WriteLine("Product Added successfully. Assigned ID: " + product.productId);
 
         }
 
@@ -147,7 +149,7 @@ namespace E_Commerce_Website_System05
             string paymentMethod = Console.ReadLine();
 
             //create order
-            context.Orders.Add(new Order
+            Order order = new Order
             {
                 userId = userId,
                 orderDate =DateTime.Now,
@@ -156,12 +158,12 @@ namespace E_Commerce_Website_System05
                 shippingAddress = shippingAddress,
                 paymentMethod= paymentMethod
 
-            });
+            };
 
             context.SaveChanges();
 
-            Order assignedOrderId = context.Orders.OrderBy(o => o.orderId).Last();
-            Console.WriteLine(" Order record successfully place it . Assigned ID: " + assignedOrderId.orderId);
+       
+            Console.WriteLine(" Order record successfully place it . Assigned ID: " + order.orderId);
 
             //display all available products
             List<Product> availableProducts = context.Products.Where(p => p.isAvailable == true).ToList();
@@ -199,7 +201,7 @@ namespace E_Commerce_Website_System05
                 {
                     productId = selectedProductId.productId,
                     quantity = quantity,
-                    orderId = assignedOrderId.orderId,
+                    orderId = order.orderId,
                     unitPrice = selectedProductId.price
 
                 });
@@ -218,9 +220,67 @@ namespace E_Commerce_Website_System05
 
             }
 
-            assignedOrderId.totalAmount = total;
+            order.totalAmount = total;
             context.SaveChanges();
         }
+
+        // 04 Write a Product Review
+        public static void AddReview()
+        {
+            //display available users
+            Console.WriteLine("=== Available Users ===");
+            foreach(User u in context.Users)
+            {
+                Console.WriteLine("userId : "+u.userId+ " / fullName : "+u.fullName);
+            }
+
+            Console.WriteLine("Enter user ID");
+            int enteredUserId = int.Parse(Console.ReadLine());
+
+            User selectedUser = context.Users.FirstOrDefault(u => u.userId == enteredUserId);
+
+            if (selectedUser == null)
+            {
+                Console.WriteLine("Invlid UserId");
+                return;
+            }
+            //dispaly available products
+            Console.WriteLine("=== Available Products ===");
+            foreach (Product u in context.Products)
+            {
+                Console.WriteLine("productId : " + u.productId + " / productName : " + u.productName);
+            }
+
+            Console.WriteLine("Enter product ID");
+            int enteredproductId = int.Parse(Console.ReadLine());
+
+            Product selectedProduct = context.Products.FirstOrDefault(u => u.productId == enteredproductId);
+
+            if (selectedProduct == null)
+            {
+                Console.WriteLine("Invlid product Id");
+                return;
+            }
+            //create the review
+            Console.WriteLine("Enter your rate (1-5)");
+            int rating = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter your comment (optional)");
+            string comment = Console.ReadLine();
+
+            Review review = new Review {
+                userId= selectedUser.userId,
+                productId= selectedProduct.productId,
+                rating = rating,
+                comment= comment,
+                reviewDate=DateTime.Now
+            };
+            context.Reviews.Add(review);
+            context.SaveChanges();
+            Console.WriteLine("Review Added successfully. Assigned ID: "+review.reviewId);
+
+        }
+
 
 
         static void Main(string[] args)
