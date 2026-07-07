@@ -311,6 +311,52 @@ namespace E_Commerce_Website_System05
         }
 
         //06 Cancel an Order
+        public static void CancelOrder()
+        {
+            List<Order> displayOrders = context.Orders.Where(o => o.status != "Cancelled").ToList();
+
+            foreach ( Order x  in displayOrders)
+            {
+                Console.WriteLine("orderId : "+x.orderId);
+                Console.WriteLine("status : " + x.status);
+                Console.WriteLine("shippingAddress : " + x.shippingAddress);
+            }
+
+            Console.WriteLine("Enter orderId to cancelled order");
+            int enteredOrderId = int.Parse(Console.ReadLine());
+
+            Order selectedOrderId = context.Orders.FirstOrDefault(a => a.orderId == enteredOrderId);
+
+            if (selectedOrderId == null)
+            {
+                Console.WriteLine("invalid order ID");
+                return;
+            }
+            //Load all OrderItems for that order 
+            List<OrderItem> displayOrderItems = context.OrderItems.Where(a => a.orderId == enteredOrderId).ToList();
+
+            foreach(OrderItem a in displayOrderItems)
+            {
+                Console.WriteLine("orderId :"+a.orderId);
+                Console.WriteLine("orderItemId :" + a.orderItemId);
+                Console.WriteLine("quantity :" + a.quantity);
+
+                Product product = context.Products.FirstOrDefault(p => p.productId == a.productId);
+
+                product.stockQuantity = product.stockQuantity + a.quantity;
+
+            }
+            selectedOrderId.status = "Cancelled";
+            context.SaveChanges();
+
+
+
+
+
+        }
+
+
+        //07 Delete a Review
 
 
 
