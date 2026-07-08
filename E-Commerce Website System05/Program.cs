@@ -554,7 +554,74 @@ namespace E_Commerce_Website_System05
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            bool exit = false;
+            while (exit == false)
+            {
+                Console.WriteLine("======= Welcome to E-Commerce System  =======");
+                Console.WriteLine("01 Register a New User");
+                Console.WriteLine("02 Add a New Category");
+                Console.WriteLine("03 View All Category");
+                Console.WriteLine("04 Add a New Product to a Category");
+                Console.WriteLine("05  Place an Order");
+                Console.WriteLine("06 Write a Product Review");
+                Console.WriteLine("07 Update Product Price and Availability");
+                Console.WriteLine("08 Cancel an Order");
+                Console.WriteLine("09 Delete a Review");
+                Console.WriteLine("10 View All Products (Get All)");
+                Console.WriteLine("11  Filter Products by Category and Price Range");
+                Console.WriteLine("12 Get Category with All Its Products (Include)");
+                Console.WriteLine("13 View Order History with Full Details");
+                Console.WriteLine("14  Product Summary Report");
+                Console.WriteLine("0 Exit");
+
+
+
+                Console.WriteLine("Please enter an option :");
+                int option = int.Parse(Console.ReadLine());
+
+                switch (option)
+                {
+                    case 01: RegisterUser(); break;
+
+                    case 02: AddCategory(); break;
+
+                    case 03: ViewAllCategories(); break;
+
+                    case 04: AddProduct(); break;
+
+                    case 05: PlaceOrder(); break;
+
+                    case 06: AddReview(); break;
+
+                    case 07: UpdateProduct(); break;
+
+                    case 08: CancelOrder(); break;
+
+                    case 09: DeleteReview(); break;
+
+                    case 10: ViewAllProducts(); break;
+
+                    case 11: FilterProduct(); break;
+
+                    case 12: CategoryWithProducts(); break;
+
+                    case 13: ViewOrderHistory(); break;
+
+                    case 14: ProductSummaryReport(); break;
+
+                    case 0: exit = true; break;
+
+                    default: Console.WriteLine("Invalid option. Please try again."); break;
+
+
+                }
+                if (!exit)
+                {
+                    Console.WriteLine("\nPress any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
         }
     }
 }
