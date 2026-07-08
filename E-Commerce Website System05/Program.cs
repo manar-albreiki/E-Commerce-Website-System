@@ -1,4 +1,5 @@
 ﻿using E_Commerce_Website_System05.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Linq;
 namespace E_Commerce_Website_System05
@@ -365,8 +366,8 @@ namespace E_Commerce_Website_System05
         //07 Delete a Review
         public static void DeleteReview()
         {
-            List<Review> displayReview = context.Reviews.ToList();
-            foreach (Review r in displayReview)
+           
+            foreach (Review r in context.Reviews)
             {
                 Console.WriteLine("reviewId : "+r.reviewId);
                 Console.WriteLine("rating : " + r.rating);
@@ -454,6 +455,33 @@ namespace E_Commerce_Website_System05
             }
 
         }
+        //10 Get Category with All Its Products (Include)
+        public static void CategoryWithProducts()
+        {
+            //display category so manager can choose the category
+            foreach (Category c in context.Categories)
+            {
+                Console.WriteLine("categoryId : "+c.categoryId+ " | categoryName : "+c.categoryName);
+            }
+            Console.WriteLine("Enter categoryId to get it's products ");
+            int enteredCategoryId = int.Parse(Console.ReadLine());
+
+            Category category = context.Categories.Include(p => p.products)
+                                                  .FirstOrDefault(c => c.categoryId == enteredCategoryId);
+            //only one category
+            Console.WriteLine("categoryName : " + category.categoryName);
+            Console.WriteLine("description : " + category.description);
+            //the one category has multiple products so i have to use foreach
+            foreach (Product p in category.products)
+            {
+                Console.WriteLine("productId : " + p.productId);
+                Console.WriteLine("productName : "+p.productName);
+                Console.WriteLine("productprice : " + p.price);
+            }
+
+        }
+
+
 
 
         static void Main(string[] args)
