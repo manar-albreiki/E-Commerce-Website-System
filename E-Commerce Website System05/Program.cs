@@ -468,9 +468,15 @@ namespace E_Commerce_Website_System05
 
             Category category = context.Categories.Include(p => p.products)
                                                   .FirstOrDefault(c => c.categoryId == enteredCategoryId);
+            if (category == null)
+            {
+                Console.WriteLine("Category not found");
+                return;
+            }
             //only one category
             Console.WriteLine("categoryName : " + category.categoryName);
             Console.WriteLine("description : " + category.description);
+
             //the one category has multiple products so i have to use foreach
             foreach (Product p in category.products)
             {
@@ -479,6 +485,33 @@ namespace E_Commerce_Website_System05
                 Console.WriteLine("productprice : " + p.price);
             }
 
+        }
+
+        //11 View Order History with Full Details
+        public static void ViewOrderHistory()
+        {
+            Console.WriteLine("Enter user ID");
+            int enteredUserId = int.Parse(Console.ReadLine());
+
+            User user = context.Users.Include(u => u.orders)
+                                     .ThenInclude(o => o.OrderItems)
+                                     .ThenInclude(i => i.product)
+                                     .FirstOrDefault(u => u.userId == enteredUserId);
+
+            foreach(Order o in user.orders)
+            {
+                Console.WriteLine("orderDate : "+o.orderDate);
+                Console.WriteLine("status : " + o.status);
+                Console.WriteLine("totalAmount : " + o.totalAmount);
+
+                foreach (OrderItem item in o.OrderItems)
+                {
+                    Console.WriteLine("productName : "+item.product.productName);
+                    Console.WriteLine("unitPrice : "+item.unitPrice);
+
+                }
+
+            }
         }
 
 
