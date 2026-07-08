@@ -26,7 +26,7 @@ namespace E_Commerce_Website_System05.Models
         [MaxLength(300)]
         public string? imageUrl { get; set; } //user input
 
-        public List<Product> products { get; set; } //navigation
+        public virtual List<Product> products { get; set; } //navigation
 
     }
 }

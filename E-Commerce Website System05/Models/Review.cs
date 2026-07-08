@@ -19,11 +19,11 @@ namespace E_Commerce_Website_System05.Models
         [ForeignKey("user")]
         [Required]
         public int userId { get; set; } //fk
-        public User user { get; set; } //navigation
+        public virtual User user { get; set; } //navigation
         [ForeignKey("product")]
         [Required]
         public int productId { get; set; } //fk
-        public Product product { get; set; } //navigation
+        public virtual Product product { get; set; } //navigation
         [Required]
         [Range(1,5)]
         public int rating { get; set; } // user inpt

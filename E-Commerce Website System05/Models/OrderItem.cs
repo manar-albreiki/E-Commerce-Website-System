@@ -27,13 +27,13 @@ namespace E_Commerce_Website_System05.Models
         [Required]
         [ForeignKey("order")]
         public int orderId { get; set; }// system generated — from the active order
-        public Order order { get; set; }// navigation property
+        public virtual Order order { get; set; }// navigation property
 
         // foreign key — every order item references exactly one product
         [Required]
         [ForeignKey("product")]
-        public int productId { get; set; }                // from list — chosen from available products
-        public Product product { get; set; }              // navigation property
+        public int productId { get; set; } // from list — chosen from available products
+        public virtual Product product { get; set; } // navigation property
 
         [Required]
         [Column(TypeName = "decimal(10,2)")]

@@ -37,9 +37,9 @@ namespace E_Commerce_Website_System05.Models
         public string paymentMethod { get; set; } // user input
 
         //realtions
-        public User user { get; set; } //navigation
+        public virtual User user { get; set; } //navigation
 
         // reverse navigation 
-        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public virtual List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

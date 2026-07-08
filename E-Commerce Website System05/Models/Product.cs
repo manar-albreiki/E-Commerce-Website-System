@@ -37,16 +37,16 @@ namespace E_Commerce_Website_System05.Models
         [Required]
         [ForeignKey("category")]
         public int categoryId { set; get; }  // foreign key
-        public Category category { set; get; } //navigation
+        public virtual Category category { set; get; } //navigation
         [Required]
         public DateTime createdAt { set; get; } //system generated
         public bool isAvailable { set; get; } = true; //default value
 
         
-        public List<Review>reviews { set; get; } //navigation
+        public virtual List<Review>reviews { set; get; } //navigation
 
         // reverse navigation — one Product appears in many OrderItems 
-        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public virtual List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
 
     }

@@ -20,6 +20,7 @@ namespace E_Commerce_Website_System05
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlServer("Server=MANAR;Database=ECommerceDB;Trusted_Connection=True;TrustServerCertificate=True;");
+            options.UseLazyLoadingProxies();
         }
     }
 }

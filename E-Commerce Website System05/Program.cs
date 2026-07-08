@@ -514,6 +514,41 @@ namespace E_Commerce_Website_System05
             }
         }
 
+        //12 Product Summary Report (Projection + LazyLoading)
+        public static void ProductSummaryReport()
+        {
+            //part A
+            var productList = context.Products.Select(p => new
+            {
+                p.productName,
+                p.category.categoryName,
+                avgRating = p.reviews.Average(r => r.rating),
+                totalReviews = p.reviews.Count(),
+                p.stockQuantity
+            }).ToList();
+
+            foreach (var a in productList)
+            {
+                Console.WriteLine("productName : " + a.productName);
+                Console.WriteLine("categoryName : " + a.categoryName);
+                Console.WriteLine("avg Rating : " + a.avgRating);
+                Console.WriteLine("total Reviews : " + a.totalReviews);
+                Console.WriteLine("stock Quantity" + a.stockQuantity);
+            }
+
+            //part B
+
+            Product product = context.Products.FirstOrDefault(p => p.productId == 1);
+
+            Console.WriteLine("productName : "+product.productName);
+
+            // SECOND SQL QUERY  HERE
+            foreach (Review r in product.reviews)
+            {
+                Console.WriteLine("Rating: " + r.rating);
+                Console.WriteLine("Comment: " + r.comment);
+            }
+        }
 
 
 

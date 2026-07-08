@@ -37,7 +37,7 @@ namespace E_Commerce_Website_System05.Models
         [Required]
         public DateTime registrationDate { get; set; }//system generated
         public bool isActive { get; set; } = true;//default value
-        public List<Order> orders { get; set; }//navigation
-        public List<Review> reviews { get; set; }//navigation
+        public virtual List<Order> orders { get; set; }//navigation
+        public virtual List<Review> reviews { get; set; }//navigation
     }
 }
