@@ -1,4 +1,5 @@
 ﻿using E_Commerce_Website_System05.Models;
+using System.Diagnostics;
 using System.Linq;
 namespace E_Commerce_Website_System05
 {
@@ -408,6 +409,51 @@ namespace E_Commerce_Website_System05
             }
         }
 
+        //09 Filter Products by Category and Price Range
+        public static void FilterProduct()
+        {
+            //display all category so user can choose 
+            List<Category> displayCategory = context.Categories.ToList();
+            foreach(Category c in displayCategory)
+            {
+                Console.WriteLine("categoryId : "+c.categoryId);
+                Console.WriteLine("categoryName : " + c.categoryName);
+            }
+            Console.WriteLine("Enter categoryId");
+            int enteredCategoryId = int.Parse(Console.ReadLine());
+            Category selectedCategoryId = context.Categories.FirstOrDefault(c => c.categoryId == enteredCategoryId);
+            if (selectedCategoryId == null)
+            {
+                Console.WriteLine("Invalid categoryId");
+                return;
+            }
+
+            Console.WriteLine("Enter minimum price");
+            int minPrice = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Enter maximum price");
+            int maxPrice = int.Parse(Console.ReadLine());
+            if (minPrice < 0|| maxPrice < 0|| maxPrice < minPrice)
+            {
+                Console.WriteLine("Invalid values for minimum price or maximum price, please try again");
+                return;
+            }
+
+            List<Product> filterProducts = context.Products.Where(p => p.categoryId == enteredCategoryId && p.price >= minPrice && p.price <= maxPrice)
+                                                           .OrderBy(x => x.price)
+                                                           .ToList();
+
+            //display filtered products
+            foreach(Product p in filterProducts)
+            {
+                Console.WriteLine("productId : "+p.productId);
+                Console.WriteLine("categoryId : " + p.categoryId);
+                Console.WriteLine("productName : " + p.productName);
+                Console.WriteLine("price : " + p.price);
+               
+            }
+
+        }
 
 
         static void Main(string[] args)
